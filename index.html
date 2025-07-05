@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Subtract Numbers</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #fff8ef;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .main {
+      max-width: 420px;
+      margin: 10vh auto;
+      padding: 30px 25px;
+      text-align: center;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      border-radius: 15px;
+      background-color: #fff3e0;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #d35400;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 90%;
+      text-align: center;
+      font-size: 1.1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
+    button {
+      width: 90%;
+      font-size: 1.1rem;
+      margin: 10px 0;
+      background-color: #f39c12;
+      border-radius: 8px;
+      padding: 10px;
+      border: none;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #e67e22;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    .reset-btn {
+      background-color: #c0392b;
+    }
+
+    .reset-btn:hover {
+      background-color: #e74c3c;
+    }
+
+    p {
+      font-size: 1.4rem;
+      margin-top: 20px;
+      color: #6e2c00;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 500px) {
+      .main {
+        margin: 5vh 10px;
+        padding: 20px;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      p {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    function SubtractPage() {
+      const [result, setResult] = React.useState(null);
+      const [error, setError] = React.useState("");
+
+      function handleSubtract() {
+        const n1 = document.getElementById('n1').value;
+        const n2 = document.getElementById('n2').value;
+
+        if (n1 === "" || n2 === "") {
+          setError("Please enter both numbers.");
+          setResult(null);
+          return;
+        }
+
+        const num1 = parseFloat(n1);
+        const num2 = parseFloat(n2);
+        setResult(`${num1} - ${num2} = ${num1 - num2}`);
+        setError("");
+      }
+
+      function handleReset() {
+        document.getElementById('n1').value = "";
+        document.getElementById('n2').value = "";
+        setResult(null);
+        setError("");
+      }
+
+      return (
+        <div className="main">
+          <h1>Subtract Two Numbers</h1>
+          <input type="number" id="n1" placeholder="Enter First Number" />
+          <input type="number" id="n2" placeholder="Enter Second Number" />
+          <button onClick={handleSubtract}>Subtract</button>
+          <button className="reset-btn" onClick={handleReset}>Reset</button>
+          {error && <div className="error">{error}</div>}
+          {result && <p>Result: {result}</p>}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('app'));
+    root.render(<SubtractPage />);
+  </script>
+</body>
+</html>
