@@ -1,147 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Subtract Numbers</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    html, body {
-      margin: 0;
-      padding: 0;
-      background-color: #fff8ef;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    .main {
-      max-width: 420px;
-      margin: 10vh auto;
-      padding: 30px 25px;
-      text-align: center;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-      border-radius: 15px;
-      background-color: #fff3e0;
-    }
-
-    h1 {
-      font-size: 2rem;
-      color: #d35400;
-      margin-bottom: 20px;
-    }
-
-    input {
-      width: 90%;
-      text-align: center;
-      font-size: 1.1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      margin: 10px 0;
-    }
-
-    button {
-      width: 90%;
-      font-size: 1.1rem;
-      margin: 10px 0;
-      background-color: #f39c12;
-      border-radius: 8px;
-      padding: 10px;
-      border: none;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #e67e22;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    }
-
-    .reset-btn {
-      background-color: #c0392b;
-    }
-
-    .reset-btn:hover {
-      background-color: #e74c3c;
-    }
-
-    p {
-      font-size: 1.4rem;
-      margin-top: 20px;
-      color: #6e2c00;
-    }
-
-    .error {
-      color: red;
-      margin-top: 10px;
-    }
-
-    @media (max-width: 500px) {
-      .main {
-        margin: 5vh 10px;
-        padding: 20px;
-      }
-      h1 {
-        font-size: 1.5rem;
-      }
-      p {
-        font-size: 1.2rem;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Happy Anniversary 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="app"></div>
 
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<div class="petals-bg" id="petals"></div>
 
-  <script type="text/babel">
-    function SubtractPage() {
-      const [result, setResult] = React.useState(null);
-      const [error, setError] = React.useState("");
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal-box">
+    <span class="modal-emoji">😤🙄😑</span>
+    <h2 class="modal-title">ONE WHOLE YEAR?!</h2>
+    <p class="modal-body">
+      Congratulations on successfully completing <strong>1 year with whatever you call me —</strong><br/>
+      because you STILL haven't given me a nickname.<br/><br/>
+      Not even one! After 365 days! Unbelievable.<br/>
+      I've been calling you <em>"baby, payaluuuuuuu, shonaa"</em> this whole time and I get… nothing? It's OK ik you dont love me! 😤
+    </p>
+    <div class="modal-timer" id="login-timer-display">⏱️ Loading...</div>
+    <button class="modal-btn" onclick="closeLoginModal()">Okay fine, open your gift 💕</button>
+  </div>
+</div>
 
-      function handleSubtract() {
-        const n1 = document.getElementById('n1').value;
-        const n2 = document.getElementById('n2').value;
+<!-- TTT WIN MODAL -->
+<div class="modal-overlay" id="ttt-modal">
+  <div class="modal-box">
+    <span class="modal-emoji">🎉💕</span>
+    <h2 class="modal-title">You Won Me!</h2>
+    <p class="modal-body">Just like in this game — you always win with me.<br/>I was never going to let you lose what matters most. 💕</p>
+    <button class="modal-btn" onclick="closeTttModal()">Awww 🥹</button>
+  </div>
+</div>
 
-        if (n1 === "" || n2 === "") {
-          setError("Please enter both numbers.");
-          setResult(null);
-          return;
-        }
+<!-- DOTS WIN MODAL -->
+<div class="modal-overlay" id="dab-modal">
+  <div class="modal-box">
+    <span class="modal-emoji" id="dab-modal-emoji">🎉</span>
+    <h2 class="modal-title" id="dab-modal-title">Game Over!</h2>
+    <p class="modal-body" id="dab-modal-body">Great game!</p>
+    <button class="modal-btn" onclick="document.getElementById('dab-modal').classList.remove('active');dabReset()">Play Again 💕</button>
+  </div>
+</div>
 
-        const num1 = parseFloat(n1);
-        const num2 = parseFloat(n2);
-        setResult(`${num1} - ${num2} = ${num1 - num2}`);
-        setError("");
-      }
+<!-- PASSWORD SCREEN -->
+<div id="lock-screen">
+  <div class="lock-card">
+    <span class="lock-heart">🌹</span>
+    <h1>A Gift For You</h1>
+    <p>Enter our special date to open your surprise…</p>
+    <input type="password" class="password-input" id="pw-input" placeholder="••••••••" maxlength="20" autocomplete="off" inputmode="numeric" />
+    <button class="unlock-btn" onclick="checkPassword()">Open My Heart 💕</button>
+    <div class="error-msg" id="error-msg"></div>
+    <button class="hint-toggle-btn" onclick="toggleHints(this)"><span>🔍</span> Need a hint?</button>
+    <div class="hints-panel" id="hints-panel">
+      <div id="hints-container"></div>
+      <button class="next-hint-btn" id="next-hint-btn" onclick="showNextHint()" style="display:none">Next Hint 🔍</button>
+      <p class="hint-format-note">Format: DDMMYYYY 🗓️</p>
+    </div>
+  </div>
+</div>
 
-      function handleReset() {
-        document.getElementById('n1').value = "";
-        document.getElementById('n2').value = "";
-        setResult(null);
-        setError("");
-      }
+<!-- MAIN PAGE -->
+<div id="main-page">
 
-      return (
-        <div className="main">
-          <h1>Subtract Two Numbers</h1>
-          <input type="number" id="n1" placeholder="Enter First Number" />
-          <input type="number" id="n2" placeholder="Enter Second Number" />
-          <button onClick={handleSubtract}>Subtract</button>
-          <button className="reset-btn" onClick={handleReset}>Reset</button>
-          {error && <div className="error">{error}</div>}
-          {result && <p>Result: {result}</p>}
+  <section class="hero">
+    <div class="hero-bg-rings"></div>
+    <p class="hero-subtitle">One Year of Us</p>
+    <h1>Happy <em>First</em><br/>Anniversary, My Love</h1>
+    <div class="hero-divider"><span></span>🌸<span></span></div>
+    <p>Every moment with you has been a gift I never expected<br/>and a love I never want to live without.</p>
+    <button class="sparkle-btn" onclick="document.querySelector('.timer-strip').scrollIntoView({behavior:'smooth'})">✨ Explore your gift</button>
+  </section>
+
+  <div class="timer-strip">
+    <div class="timer-label">🕐 Together Since April 18, 2025 · 9:15 PM</div>
+    <div class="timer-display">
+      <div class="timer-unit"><span class="timer-num" id="t-days">0</span><span class="timer-lab">DAYS</span></div>
+      <div class="timer-sep">·</div>
+      <div class="timer-unit"><span class="timer-num" id="t-hours">0</span><span class="timer-lab">HOURS</span></div>
+      <div class="timer-sep">·</div>
+      <div class="timer-unit"><span class="timer-num" id="t-mins">0</span><span class="timer-lab">MINUTES</span></div>
+      <div class="timer-sep">·</div>
+      <div class="timer-unit"><span class="timer-num" id="t-secs">0</span><span class="timer-lab">SECONDS</span></div>
+    </div>
+  </div>
+
+  <div class="reasons-strip">
+    <div class="reasons-track" id="reasons-track"></div>
+  </div>
+
+  <!-- SONG -->
+  <section class="section">
+    <h2 class="section-title">Our Vibe 🎵</h2>
+    <p class="section-sub">The soundtrack to us</p>
+    <div class="song-card">
+      <div class="song-vinyl" id="vinyl">
+        <div class="vinyl-groove" style="width:78px;height:78px;"></div>
+        <div class="vinyl-groove" style="width:62px;height:62px;"></div>
+        <div class="vinyl-groove" style="width:46px;height:46px;"></div>
+      </div>
+      <div class="song-title">I Think They Call This Love</div>
+      <div class="song-artist">Just feel it Shona ❤️🥹🎵</div>
+      <div class="song-note">Every time I hear this, I think of you.<br/>I hope it always stays that way.</div>
+      <button class="song-play-btn" onclick="toggleVinyl(this)">▶ Play in your heart</button>
+      <audio id="song"><source src="assets/I_Think_They_Call_This_Love_Cover.mp3" type="audio/mpeg"></audio>
+    </div>
+  </section>
+
+  <!-- OUR STORY -->
+  <section class="section">
+    <h2 class="section-title">Our Story 🌸</h2>
+    <p class="section-sub">The moments that made us, us</p>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-date">April 18, 2025</div><div class="timeline-event">The Beginning 💕</div><div class="timeline-note">The night everything changed. 9:15 PM. Us.</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-date">Our First Time</div><div class="timeline-event">Linkcode 💻</div><div class="timeline-note">Lazy mornings in Linkcode, random hangouts and figuring out our thing.</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-date">Random Dates</div><div class="timeline-event">Sweets ☕</div><div class="timeline-note">Coffee Nation, Waffles and so much more. Always you, always us.</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-date">Fights and Love 😤💘</div><div class="timeline-event">College and Station 📖</div><div class="timeline-note">Sitting beside each other in class, breaks, holding hands — always close.</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-date">April 18, 2026</div><div class="timeline-event">One Year 🌹</div><div class="timeline-note">And I'd choose you a thousand times over.</div></div></div>
+    </div>
+  </section>
+
+  <!-- PHOTO SECTION -->
+  <section class="section">
+    <h2 class="section-title">Our Year In Photos 📸</h2>
+    <p class="section-sub">The I 3 already picked💙 — now you add your 3 favourite memories 💕</p>
+    <div class="photo-section-inner">
+      <div class="photo-instruction">
+        <strong>How it works:</strong> I have already picked 3 pics of us and loaded💙. Tap <strong>+ Add your photo</strong> to upload your 3 favourites, then drag them into the right column frames. Fill all 6 to unlock your gallery! 🌸
+      </div>
+      <p class="upload-pool-label">📤 Photo Pool — drag to frames below</p>
+      <div class="upload-pool" id="upload-pool">
+        <div class="pool-add-btn" id="pool-add-btn" onclick="document.getElementById('photo-file-input').click()">
+          <span class="pool-add-icon">＋</span>
+          <span>Add your photo</span>
         </div>
-      );
-    }
+      </div>
+      <div class="frames-split" id="frames-split">
+        <div class="frames-col" id="col-his">
+          <div class="frames-col-header his">💙 My Picks</div>
+          <div class="frames-col-inner" id="his-frames"></div>
+        </div>
+        <div class="frames-col" id="col-hers">
+          <div class="frames-col-header hers">💕 Your Picks</div>
+          <div class="frames-col-inner" id="her-frames"></div>
+        </div>
+      </div>
+      <div class="arrange-controls">
+        <button class="arrange-btn" onclick="clearHerFrames()">🗑️ Clear Your frames</button>
+        <button class="arrange-btn primary" id="finish-btn" onclick="finishGallery()" style="display:none">✨ See our gallery!</button>
+      </div>
+    </div>
+    <div class="gallery-completed" id="gallery-completed">
+      <h3 style="font-family:'Playfair Display',serif;color:var(--deep-rose);text-align:center;margin:32px 0 8px;font-size:1.4rem;">Our Memories Together 💕</h3>
+      <p style="text-align:center;color:var(--muted);font-size:0.85rem;font-style:italic;margin-bottom:4px;">Hover over each one 🌸</p>
+      <div class="polaroid-gallery" id="polaroid-gallery"></div>
+      <button class="rearrange-btn" onclick="rearrangeGallery()">🔄 Change Your picks</button>
+    </div>
+  </section>
 
-    const root = ReactDOM.createRoot(document.getElementById('app'));
-    root.render(<SubtractPage />);
-  </script>
+  <!-- MEMORY JAR -->
+  <section class="section">
+    <h2 class="section-title">Memory Jar 🫙</h2>
+    <p class="section-sub">Tap a memory to relive it</p>
+    <div class="jar-section">
+      <div class="jar-grid" id="jar-grid"></div>
+      <div class="memory-display" id="memory-display">Tap a memory above 💕</div>
+    </div>
+  </section>
+
+  <!-- WORD SEARCH -->
+  <section class="section">
+    <h2 class="section-title">Find Our Words</h2>
+    <p class="section-sub">Hidden in the grid are words that describe us — find them all!</p>
+    <div class="game-area">
+      <div class="game-status" id="game-status">Select letters by clicking &amp; dragging 💕</div>
+      <div class="word-search-grid" id="ws-grid"></div>
+      <div class="word-list" id="word-list"></div>
+      <div class="ws-actions">
+        <button class="ws-btn" onclick="revealAllWords()">✨ Reveal All</button>
+        <button class="ws-btn" onclick="buildWordSearch()">🔄 New Grid</button>
+      </div>
+      <div class="congrats-banner" id="congrats">🎉 You found all the words! Just like we found each other. 🎉</div>
+    </div>
+  </section>
+
+  <!-- CROSSWORD -->
+  <section class="section">
+    <h2 class="section-title">Our Crossword 🧩</h2>
+    <p class="section-sub">Fill in the answers — they're all about us</p>
+    <div class="crossword-wrap">
+      <center><div class="cw-grid-container"><div class="cw-grid" id="cw-grid"></div></div></center>
+      <div class="cw-clues" id="cw-clues"></div>
+      <div class="cw-actions">
+        <button class="cw-btn" onclick="checkCrossword()">Check Answers</button>
+        <button class="cw-btn" onclick="revealCrossword()">Reveal All</button>
+        <button class="cw-btn" onclick="resetCrossword()">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIC TAC TOE -->
+  <section class="section">
+    <h2 class="section-title">Tic Tac Toe 🎮</h2>
+    <p class="section-sub">You're X, I'm O — let's play! (Can you win me? 💕)</p>
+    <div class="ttt-wrap">
+      <div class="ttt-score">
+        <div class="ttt-score-box"><div class="ttt-score-num" id="ttt-x-score">0</div><div class="ttt-score-label">YOU (X)</div></div>
+        <div class="ttt-score-box"><div class="ttt-score-num" id="ttt-tie-score">0</div><div class="ttt-score-label">TIES</div></div>
+        <div class="ttt-score-box"><div class="ttt-score-num" id="ttt-o-score">0</div><div class="ttt-score-label">ME (O)</div></div>
+      </div>
+      <div class="ttt-game-count" id="ttt-game-count">Game 1</div>
+      <div class="ttt-status" id="ttt-status">Your turn! 💕</div>
+      <div class="ttt-board" id="ttt-board"></div>
+      <button class="ttt-reset" onclick="resetTtt(true)">New Game</button>
+    </div>
+  </section>
+
+  <!-- DOTS & BOXES -->
+  <section class="section">
+    <h2 class="section-title">Dots &amp; Boxes 🌸</h2>
+    <p class="section-sub">You're 💕, I'm 💙 — draw lines to claim boxes! Most boxes wins!</p>
+    <div class="dab-wrap">
+      <div class="dab-score-row">
+        <div class="dab-score-box"><div class="dab-score-num" id="dab-her-score">0</div><div class="dab-score-label">YOU 💕</div></div>
+        <div class="dab-score-box">💕 vs 💙</div>
+        <div class="dab-score-box"><div class="dab-score-num" id="dab-his-score">0</div><div class="dab-score-label">ME 💙</div></div>
+      </div>
+      <div class="dab-legend">
+        <span><span class="dab-legend-dot" style="background:#e8a0a0;"></span> Your box</span>
+        <span><span class="dab-legend-dot" style="background:#a0c4e8;"></span> My box</span>
+      </div>
+      <div class="dab-status" id="dab-status">Your turn 💕 — tap a line between two dots!</div>
+      <div class="dab-canvas-wrap">
+        <canvas id="dab-canvas"></canvas>
+      </div>
+      <div class="dab-actions">
+        <button class="dab-btn" onclick="dabReset()">🔄 New Game</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOVE LETTER -->
+  <section class="section">
+    <h2 class="section-title">A Letter From My Heart</h2>
+    <p class="section-sub">Just for you</p>
+    <div class="letter-card">
+      <p>My Shona 💕,</p>
+      <p>One whole year… and honestly, it still feels unreal sometimes. A year of us — of love, of chaos, of laughter, of fights, of growing… and of choosing each other again and again.</p>
+      <p>We weren't perfect, and that's what makes this so real. We fought, we misunderstood each other, we had days where everything felt heavy… but we never left. We stayed. We learned. We understood each other's likes, dislikes, moods, silence — everything. And somewhere in between all of that, we built something so strong that even our worst days couldn't break it.</p>
+      <p>This year wasn't just about love… it was about <em>us becoming better for each other.</em></p>
+      <p>From all those random kisses, forehead kisses, those "babyyy payaluuuuu" moments, to silly arguments and deep talks… every single memory is a part of me now. Every laugh, every tear, every "I'm angry but I still love you" moment — it all matters.</p>
+      <p>You're not just someone I love, Shona… You're someone I've grown with. Someone I've learned patience with. Someone I've learned love with — the real kind.</p>
+      <p>Thank you for staying. Thank you for loving me even when I was difficult. Thank you for being mine.</p>
+      <p>And no matter what happens next… I promise you this — I will keep choosing you. Every day. In every mood. In every version of us.</p>
+      <p>Happy One Year, my Shona 💖 Here's to more love, more kisses, fewer fights (hopefully 😤), and a lifetime of us.</p>
+      <p class="sign">Forever yours 💕</p>
+    </div>
+  </section>
+
+  <footer>Made with every piece of my heart — just for you 🌹</footer>
+</div>
+
+<input type="file" id="photo-file-input" accept="image/*" multiple style="display:none" />
+
+<script src="script.js"></script>
 </body>
 </html>
